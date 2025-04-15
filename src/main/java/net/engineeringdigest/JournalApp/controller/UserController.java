@@ -88,11 +88,7 @@ public class UserController {
         }
         return new ResponseEntity<>("hello : "+authentication.getName() + greeting,HttpStatus.OK);
     }
-
-
-
 }
-
 
 // call stack .....    controller --> service --> Repository
 // service me business logic hai
