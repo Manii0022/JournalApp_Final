@@ -41,6 +41,3 @@ public class AdminController {
 
 }
 
-// this is admin controller
-
-
