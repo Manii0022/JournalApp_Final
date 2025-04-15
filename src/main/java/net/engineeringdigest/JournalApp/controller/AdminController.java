@@ -28,16 +28,17 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
     @PostMapping("/create-admin-user")
     public ResponseEntity createNewAdmin(@RequestBody User user){
         userService.saveNewAdmin(user);
         return new ResponseEntity<>(user,HttpStatus.CREATED);
     }
 
+
     @GetMapping("clear-app-cache")
     public void clearAppcache(){
         appCache.init();
     }
-}
-// this is the test
 
+}
