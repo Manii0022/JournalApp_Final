@@ -38,6 +38,6 @@ public class AdminController {
     public void clearAppcache(){
         appCache.init();
     }
-
 }
+// this is the test
 
