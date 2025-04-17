@@ -31,7 +31,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeHttpRequests()
                 .antMatchers("/journal/**","/user/**").authenticated()  // jo bhi /journal/... and /user/... se aane waali requests hai unhe authenticate kro bss
                 .antMatchers("/admin/**").hasRole("ADMIN")  // Only users with the role "ADMIN" can access URLs matching /admin/**.
-                .anyRequest().permitAll() ;                  // , baaki anyRequests ko simply permit krdo
+                .anyRequest().permitAll();                  // , baaki anyRequests ko simply permit krdo
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();   // spring security , session manage krta hai .. isiliye usey disabale krdiyia
         // csrf ko bhi disable krdiya to prevent cyber attacks
