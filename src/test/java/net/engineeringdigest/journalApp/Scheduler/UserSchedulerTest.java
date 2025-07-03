@@ -1,6 +1,6 @@
 package net.engineeringdigest.journalApp.Scheduler;
 
-import net.JournalApp.Scheduler.UserScheduler;
+import net.engineeringdigest.JournalApp.Scheduler.UserScheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,8 @@
 package net.engineeringdigest.journalApp.service;
 
-import net.JournalApp.entity.User;
-import net.JournalApp.repository.UserRepository;
-import net.JournalApp.service.UserDetailsServiceImpl;
+import net.engineeringdigest.JournalApp.entity.User;
+import net.engineeringdigest.JournalApp.repository.UserRepository;
+import net.engineeringdigest.JournalApp.service.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
