@@ -1,8 +1,8 @@
 package net.engineeringdigest.journalApp.service;
 
 import com.mongodb.assertions.Assertions;
-import net.engineeringdigest.JournalApp.repository.UserRepositoryImpl;
-import net.engineeringdigest.JournalApp.service.EmailService;
+import net.JournalApp.repository.UserRepositoryImpl;
+import net.JournalApp.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

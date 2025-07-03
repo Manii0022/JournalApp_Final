@@ -1,24 +1,17 @@
 package net.engineeringdigest.journalApp.service;
 
-import net.engineeringdigest.JournalApp.entity.User;
-import net.engineeringdigest.JournalApp.repository.UserRepository;
-import net.engineeringdigest.JournalApp.service.UserDetailsServiceImpl;
+import net.JournalApp.entity.User;
+import net.JournalApp.repository.UserRepository;
+import net.JournalApp.service.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 

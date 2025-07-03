@@ -1,12 +1,10 @@
 package net.engineeringdigest.journalApp.service;
 
-import net.engineeringdigest.JournalApp.entity.User;
-import net.engineeringdigest.JournalApp.repository.UserRepository;
-import org.junit.jupiter.api.BeforeAll;
+import net.JournalApp.entity.User;
+import net.JournalApp.repository.UserRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
