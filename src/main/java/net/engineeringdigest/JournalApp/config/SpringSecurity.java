@@ -18,14 +18,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurity extends WebSecurityConfigurerAdapter {
+public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSecurityConfigurerAdapter is depricated , use SecurityFilterChain instead
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private JwtFilter jwtFilter;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests()
