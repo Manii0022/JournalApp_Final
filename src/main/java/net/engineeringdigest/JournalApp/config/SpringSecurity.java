@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSecurityConfigurerAdapter is depricated , use SecurityFilterChain instead
+public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSecurityConfigurerAdapter is deprecated , use SecurityFilterChain instead
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -32,7 +32,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
                 .antMatchers("/admin/**").hasRole("ADMIN")  // Only users with the role "ADMIN" can access URLs matching /admin/**.
                 .anyRequest().permitAll();                  // , baaki anyRequests ko simply permit krdo
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();   // spring security , session manage krta hai .. isiliye usey disabale krdiyia
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();   // spring security , session manage krta hai .. isiliye usey disable krdiyia
         // csrf ko bhi disable krdiya to prevent cyber attacks
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -42,7 +42,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Bean
