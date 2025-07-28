@@ -48,7 +48,7 @@ public class PublicController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user){
-        try{
+        try{    // this is the implementation of the manual authentication that was defined in SpringSecurity class
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword()));
             UserDetails userDetails=userDetailsService.loadUserByUsername(user.getUserName());
@@ -57,7 +57,7 @@ public class PublicController {
         }
         catch(Exception e){
             log.error("Exception occurred while createAuthenticationToken ",e);
-            return new ResponseEntity<>("Incorrect uername or password ",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Incorrect username or password ",HttpStatus.BAD_REQUEST);
         }
     }
 

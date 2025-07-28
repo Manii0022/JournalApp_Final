@@ -52,6 +52,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
         return new BCryptPasswordEncoder();
     }
 
+
+    // this is manual authentication for JWT
     @Bean
     @Override
     public AuthenticationManager authenticationManager() throws Exception{
