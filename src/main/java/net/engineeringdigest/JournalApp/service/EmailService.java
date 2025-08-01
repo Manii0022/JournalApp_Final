@@ -12,6 +12,7 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
     public boolean sendEmail(String to,String subject,String body){
         try{
             SimpleMailMessage mail=new SimpleMailMessage();
