@@ -36,7 +36,7 @@ public class UserService {
             userRepository.save(user);          //  and then db me save krwa rhe hai
         }
         catch (Exception e) {
-            log.error("erro hai ji ");
+            log.error("error hai ji ");
             log.warn("warn hai ji");
             log.info("info hai ji ");        // log for Slf4j .... logger for manual instance
             log.debug("debug hai ji");

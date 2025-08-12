@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 //    @Autowired
 //    private EmailService emailService;
 //
-////    @Scheduled(cron = "*/2 * * * * *") // every 10 seconds
+//    @Scheduled(cron = "*/2 * * * * *") // every 10 seconds
 //    public void sendSpamMails(){
 //        try{
 //            emailService.sendEmail("mananbhardwaj2705@gmail.com","kya haal Manan bhai","YE MAILS MERI APPLICATION SE AA RHE HAI ");

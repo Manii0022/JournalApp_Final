@@ -16,7 +16,7 @@ public class UserRepositoryImpl {
     public List<User> getUsersForSA(){
         Query query=new Query();
 
-//        query.addCriteria(Criteria.where("email").exists(true));   // when we write seperate, it by default AND operator
+//        query.addCriteria(Criteria.where("email").exists(true));   // when we write seperate, it is by default AND operator
 //        query.addCriteria(Criteria.where("sentimentAnalysis").is(true));
 
         Criteria criteria=new Criteria();
