@@ -24,7 +24,7 @@ public class PublicController {
     private UserService userService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;    // AuthenticationManager use kiya hai isiliye iski bean bnani padegi in spring config class
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -50,7 +50,7 @@ public class PublicController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {
         try {    // this is the implementation of the manual authentication that was defined in SpringSecurity class
-            Authentication authentication = authenticationManager.authenticate(
+            authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
 
 //             Directly get the authenticated UserDetails (no second DB call)
