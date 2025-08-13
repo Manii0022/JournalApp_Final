@@ -28,9 +28,9 @@ public class JournalEntryService {
     public void saveEntry(JournalEntry journalEntry,String username) {
         try {
             journalEntry.setDate(LocalDateTime.now());
-            User user = userService.findByUserName(username);      // user get krliya
             JournalEntry saved = journalEntryRepository.save(journalEntry);   // pehla kaam done
 
+            User user = userService.findByUserName(username);      // user get krliya
             user.getJournalEntries().add(saved);     // doosra kaam done ie. user ki journalEntries[] field me journalEntry ki _id save kra di
             // hume kaise pta ki sirf id hi store hogi [] me bcoz of DBRef.. wo bss reference store krta hai ie. _id
 
@@ -38,7 +38,7 @@ public class JournalEntryService {
 
         }
         catch (Exception e) {
-            System.out.println(e);
+//            System.out.println(e);
             throw new RuntimeException("an error occured while saving entry ");
         }
     }

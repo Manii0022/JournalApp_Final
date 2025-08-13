@@ -27,7 +27,7 @@ public class JournalEntryController {
     @PostMapping()
     public ResponseEntity<?> createEntry(@RequestBody JournalEntry myEntry){
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = authentication.getName();  // jo bhi user createEntry ko call krega , uska name get kr rhe hai
 
         try{
             journalEntryService.saveEntry(myEntry,username);
