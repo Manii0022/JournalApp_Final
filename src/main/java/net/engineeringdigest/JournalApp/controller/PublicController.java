@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +33,13 @@ public class PublicController {
     private JwtUtil jwtUtil;
 
     @GetMapping("/health-check")
-    public String healthCheck(){
+    public String healthCheck() {
         return "ok";
     }
 
     @PostMapping("/signup")
-    public void signup(@RequestBody UserDTO user){
-        User newUser=new User();           // DTO object se User entity object me data daalne k liye
+    public void signup(@RequestBody UserDTO user) {
+        User newUser = new User();           // DTO object se User entity object me data daalne k liye
         newUser.setUserName(user.getUserName());
         newUser.setEmail(user.getEmail());
         newUser.setSentimentAnalysis(user.isSentimentAnalysis());
@@ -47,17 +48,21 @@ public class PublicController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user){
-        try{    // this is the implementation of the manual authentication that was defined in SpringSecurity class
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getUserName(),user.getPassword()));
-            UserDetails userDetails=userDetailsService.loadUserByUsername(user.getUserName());
+    public ResponseEntity<String> login(@RequestBody User user) {
+        try {    // this is the implementation of the manual authentication that was defined in SpringSecurity class
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+
+//             Directly get the authenticated UserDetails (no second DB call)
+//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            // this calls DB again
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
             String jwt = jwtUtil.generateToken(userDetails.getUsername());
             return new ResponseEntity<>(jwt, HttpStatus.OK);
-        }
-        catch(Exception e){
-            log.error("Exception occurred while createAuthenticationToken ",e);
-            return new ResponseEntity<>("Incorrect username or password ",HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            log.error("Exception occurred while createAuthenticationToken ", e);
+            return new ResponseEntity<>("Incorrect username or password ", HttpStatus.BAD_REQUEST);
         }
     }
 
