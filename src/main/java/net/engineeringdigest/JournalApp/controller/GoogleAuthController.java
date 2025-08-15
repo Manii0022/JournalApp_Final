@@ -70,7 +70,9 @@ public class GoogleAuthController {
                 String email = (String) userInfo.get("email");
                 UserDetails userDetails = null;
                 try{
-                    userDetails = userDetailsService.loadUserByUsername(email);
+                    //  Try to load an existing local user by email
+                    userDetails = userDetailsService.loadUserByUsername(email);   // loadByUsername me email daal rhe hai, bcoz
+                    // jb user first time sign-in krega toh hum uske username field me email hi daal rhe hai (catch block me dekho)
                 }
                 catch (Exception e){
                     User user = new User();
@@ -92,8 +94,8 @@ public class GoogleAuthController {
     }
 }
 
-/*
 
+/*
 https://accounts.google.com/o/oauth2/auth?
 client_id=YOUR_CLIENT_ID
     &redirect_uri=YOUR_REDIRECT_URI
@@ -101,5 +103,4 @@ client_id=YOUR_CLIENT_ID
     &scope=email profile
     &access_type=offline
     &prompt=consent
-
 */
