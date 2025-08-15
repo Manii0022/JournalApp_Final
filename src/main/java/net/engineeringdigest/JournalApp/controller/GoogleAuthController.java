@@ -52,7 +52,7 @@ public class GoogleAuthController {
         try {
             String tokenEndpoint = "https://oauth2.googleapis.com/token";        // auth_code leke google ki API kk pass , access_token lene ja rhe hai
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("code", code);
+            params.add("code", code);       // The authorization code we received. One-time use; expires quickly.
             params.add("client_id", clientId);
             params.add("client_secret", clientSecret);
             params.add("redirect_uri", "https://developers.google.com/oauthplayground");
