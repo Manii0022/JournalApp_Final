@@ -62,9 +62,9 @@ public class GoogleAuthController {
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);    // request is the content we're sending to the URL
             ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenEndpoint, request, Map.class);   // the Map.class indicates that we need response in Map type
-            String idToken = (String) tokenResponse.getBody().get("id_token");
-            String userInfoUrl = "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;
-            ResponseEntity<Map> userInfoResponse = restTemplate.getForEntity(userInfoUrl, Map.class);
+            String idToken = (String) tokenResponse.getBody().get("id_token");  //  Extracts ID Token (a JWT that google sent). Contains user claims (sub, email, etc.)
+            String userInfoUrl = "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;    // Google’s tokeninfo endpoint
+            ResponseEntity<Map> userInfoResponse = restTemplate.getForEntity(userInfoUrl, Map.class);    // Google will return the user info
             if (userInfoResponse.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> userInfo = userInfoResponse.getBody();
                 String email = (String) userInfo.get("email");
