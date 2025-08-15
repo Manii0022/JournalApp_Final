@@ -55,12 +55,13 @@ public class GoogleAuthController {
             params.add("code", code);       // The authorization code we received. One-time use; expires quickly.
             params.add("client_id", clientId);    // Google Oauth client id
             params.add("client_secret", clientSecret);    // Google Oauth client secret
-            params.add("redirect_uri", "https://developers.google.com/oauthplayground");
-            params.add("grant_type", "authorization_code");
+            params.add("redirect_uri", "https://developers.google.com/oauthplayground");   // this is the frontend, jaha pr redirect hona hai
+                                                                                          // (jaise leetcode me ho rhe the ...se notes)
+            params.add("grant_type", "authorization_code");   // Tells Google which OAuth flow we’re performing.
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-            ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenEndpoint, request, Map.class);
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);    // request is the content we're sending to the URL
+            ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(tokenEndpoint, request, Map.class);   // the Map.class indicates that we need response in Map type
             String idToken = (String) tokenResponse.getBody().get("id_token");
             String userInfoUrl = "https://oauth2.googleapis.com/tokeninfo?id_token=" + idToken;
             ResponseEntity<Map> userInfoResponse = restTemplate.getForEntity(userInfoUrl, Map.class);
