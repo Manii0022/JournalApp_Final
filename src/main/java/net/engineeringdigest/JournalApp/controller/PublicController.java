@@ -10,9 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -52,7 +57,7 @@ public class PublicController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
 
-//             Directly get the authenticated UserDetails (no second DB call)
+//            Directly get the authenticated UserDetails (no second DB call)
 //            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
             // this calls DB again
@@ -65,4 +70,22 @@ public class PublicController {
         }
     }
 
+    @GetMapping("/home")
+    public String home() {
+        return "you are on home";
+
+    }
+
+    @GetMapping("/profile")
+    public String getProfile(@AuthenticationPrincipal org.springframework.security.oauth2.core.user.OAuth2User oauthUser) {
+        // directly get attributes from Google
+//        return oau.getAttributes();
+
+        System.out.println("User Name: " + oauthUser.getAttribute("name"));
+        System.out.println("Email: " + oauthUser.getAttribute("email"));
+        System.out.println("Picture: " + oauthUser.getAttribute("picture"));
+
+        return "User Name: ";
+
+    }
 }

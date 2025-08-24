@@ -56,7 +56,7 @@ public class GoogleAuthController {
             params.add("client_id", clientId);    // Google Oauth client id
             params.add("client_secret", clientSecret);    // Google Oauth client secret
             params.add("redirect_uri", "https://developers.google.com/oauthplayground");   // this is the frontend, jaha pr redirect hona hai
-                                                                                          // (jaise leetcode me ho rhe the ...se notes)
+                                                                                          // (jaise leetcode me ho rhe the ...see notes)
             params.add("grant_type", "authorization_code");   // Tells Google which OAuth flow we’re performing.
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

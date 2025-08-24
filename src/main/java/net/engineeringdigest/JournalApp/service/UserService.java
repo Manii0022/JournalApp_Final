@@ -67,10 +67,10 @@ public class UserService {
     }
 
 
-    public void updateById(ObjectId id){
-
-        // updation code is directly written in the controller class
-    }
+//    public void updateById(ObjectId id){
+//
+//        // updation code is directly written in the controller class
+//    }
 
 
 }
