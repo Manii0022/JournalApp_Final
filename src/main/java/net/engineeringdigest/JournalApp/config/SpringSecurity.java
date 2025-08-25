@@ -1,8 +1,13 @@
 package net.engineeringdigest.JournalApp.config;
 
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.engineeringdigest.JournalApp.entity.User;
 import net.engineeringdigest.JournalApp.filter.JwtFilter;
+import net.engineeringdigest.JournalApp.repository.UserRepository;
 import net.engineeringdigest.JournalApp.service.UserDetailsServiceImpl;
+import net.engineeringdigest.JournalApp.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +31,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +41,13 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private JwtFilter jwtFilter;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -58,21 +70,48 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
                     // extract user details
                     var oauthUser = (org.springframework.security.oauth2.core.user.OAuth2User) authentication.getPrincipal();
 
-                    SecurityContext context = SecurityContextHolder.createEmptyContext();
-                    context.setAuthentication(authentication);
-                    SecurityContextHolder.setContext(context);
+                    String email = oauthUser.getAttribute("email");
+                    Optional<User> exixtingUser = userRepository.findByEmail(email);
 
-                    request.getSession(true).setAttribute(
-                            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                            context);
+                    if (exixtingUser.isPresent()) {
+                        var out = Map.of(
+                                "status", "exists",
+                                "message", "You are already signed up. Please login to continue.",
+                                "email", email
+                        );
+                        new ObjectMapper().writeValue(response.getWriter(), out);
+                    } else {
+                        User newUser = new User();
+                        newUser.setUserName(oauthUser.getAttribute("name"));
+                        newUser.setEmail(oauthUser.getAttribute(email));
 
-                    // print details to terminal
-                    System.out.println("User Name: " + oauthUser.getAttribute("name"));
-                    System.out.println("Email: " + oauthUser.getAttribute("email"));
-                    System.out.println("Picture: " + oauthUser.getAttribute("picture"));
+                        userRepository.save(newUser);
 
-                    // redirect after success
-                    response.sendRedirect("/public/profile");
+                        String jwt = jwtUtil.generateToken(email);
+
+                        var out = Map.of(
+                                "status", "signup Success",
+                                "token", jwt
+                        );
+                        new ObjectMapper().writeValue(response.getWriter(), out);
+
+                    }
+
+//                    SecurityContext context = SecurityContextHolder.createEmptyContext();
+//                    context.setAuthentication(authentication);
+//                    SecurityContextHolder.setContext(context);
+//
+//                    request.getSession(true).setAttribute(
+//                            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+//                            context);
+//
+//                    // print details to terminal
+//                    System.out.println("User Name: " + oauthUser.getAttribute("name"));
+//                    System.out.println("Email: " + oauthUser.getAttribute("email"));
+//                    System.out.println("Picture: " + oauthUser.getAttribute("picture"));
+//
+//                    // redirect after success
+//                    response.sendRedirect("/public/profile");
                 })
         );
 
