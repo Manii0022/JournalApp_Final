@@ -1,5 +1,6 @@
 package net.engineeringdigest.JournalApp.config;
 
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,6 +8,7 @@ import net.engineeringdigest.JournalApp.entity.User;
 import net.engineeringdigest.JournalApp.filter.JwtFilter;
 import net.engineeringdigest.JournalApp.repository.UserRepository;
 import net.engineeringdigest.JournalApp.service.UserDetailsServiceImpl;
+import net.engineeringdigest.JournalApp.service.UserService;
 import net.engineeringdigest.JournalApp.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +28,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +49,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JwtFilter jwtFilter;
 
     @Autowired
@@ -52,18 +60,10 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
-                .antMatchers("/journal/**", "/user/**").authenticated()  // jo bhi /journal/... and /user/... se aane waali requests hai unhe authenticate kro bss
+                .antMatchers("/journal/**", "/user/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")  // Only users with the role "ADMIN" can access URLs matching /admin/**.
-                .anyRequest().permitAll();                  // , baaki anyRequests ko simply permit krdo
+                .anyRequest().permitAll();
 
-//        http.oauth2Login(oauth2login -> oauth2login.successHandler(
-//                new AuthenticationSuccessHandler() {
-//                    @Override
-//                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//                        response.sendRedirect("/home");
-//                    }
-//                }
-//        )).formLogin(Customizer.withDefaults());
 
         http.oauth2Login(oauth2 -> oauth2
                 .successHandler((request, response, authentication) -> {
@@ -71,54 +71,47 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
                     var oauthUser = (org.springframework.security.oauth2.core.user.OAuth2User) authentication.getPrincipal();
 
                     String email = oauthUser.getAttribute("email");
-                    Optional<User> exixtingUser = userRepository.findByEmail(email);
+                    Optional<User> existingUser = userRepository.findByEmail(email);
 
-                    if (exixtingUser.isPresent()) {
-                        var out = Map.of(
-                                "status", "exists",
-                                "message", "You are already signed up. Please login to continue.",
-                                "email", email
-                        );
-                        new ObjectMapper().writeValue(response.getWriter(), out);
-                    } else {
-                        User newUser = new User();
-                        newUser.setUserName(oauthUser.getAttribute("name"));
-                        newUser.setEmail(oauthUser.getAttribute(email));
+                    try {
 
-                        userRepository.save(newUser);
+                        if (existingUser.isPresent()) {
+                            String jwt = jwtUtil.generateToken(email);
+                            response.sendRedirect(
+                                    "http://localhost:5173/dashboard?exists=true&email=" + email + "token=" + jwt + "&name=" + oauthUser.getAttribute("name")
+                            );
+                        }
+                        else {
+                            User user = new User();
+                            user.setUserName(oauthUser.getAttribute("name"));
+                            user.setEmail(oauthUser.getAttribute(email));
+                            user.setPassword(GeneratePass());
+                            userService.saveNewUser(user);
 
-                        String jwt = jwtUtil.generateToken(email);
-
-                        var out = Map.of(
-                                "status", "signup Success",
-                                "token", jwt
-                        );
-                        new ObjectMapper().writeValue(response.getWriter(), out);
-
+                            String jwt = jwtUtil.generateToken(email);
+                            response.sendRedirect(
+                                    "http://localhost:5173/dashboard?token=" + jwt + "&email=" + email + "&name=" + oauthUser.getAttribute("name")
+                            );
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e + "Exception occured");
                     }
-
-//                    SecurityContext context = SecurityContextHolder.createEmptyContext();
-//                    context.setAuthentication(authentication);
-//                    SecurityContextHolder.setContext(context);
-//
-//                    request.getSession(true).setAttribute(
-//                            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-//                            context);
-//
-//                    // print details to terminal
-//                    System.out.println("User Name: " + oauthUser.getAttribute("name"));
-//                    System.out.println("Email: " + oauthUser.getAttribute("email"));
-//                    System.out.println("Picture: " + oauthUser.getAttribute("picture"));
-//
-//                    // redirect after success
-//                    response.sendRedirect("/public/profile");
                 })
+
         );
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();   // spring security , session manage krta hai .. isiliye usey disable krdiyia
-        // csrf ko bhi disable krdiya to prevent cyber attacks
-
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // spring security , session manage krta hai .. isiliye usey disable krdiyia
+        http.csrf().disable();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .cors(cors -> cors.configurationSource(request -> {
+                    var config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:5173"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                    config.setAllowCredentials(true);
+                    config.setAllowedHeaders(List.of("*"));
+                    return config;
+                }));
     }
 
     @Override
@@ -139,6 +132,17 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
+    }
+
+    @Bean
+    public String GeneratePass() {
+        String code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyx1234567890!@#$%^&*/";
+        String pass= "";
+        for (int i = 0; i < 10; i++) {
+            int num = (int) (Math.random() * code.length() + 0);
+            pass = pass + code.charAt(num);
+        }
+        return pass;
     }
 
 }
