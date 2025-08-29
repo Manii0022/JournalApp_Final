@@ -54,11 +54,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findById(ObjectId id){
+    public Optional<User> findById(String id){
         return userRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id){
+    public void deleteById(String id){
         userRepository.deleteById(id);
     }
 

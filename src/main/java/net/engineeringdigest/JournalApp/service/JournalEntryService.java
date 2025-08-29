@@ -51,12 +51,12 @@ public class JournalEntryService {
         return journalEntryRepository.findAll();
     }
 
-    public Optional<JournalEntry> findById(ObjectId id){
+    public Optional<JournalEntry> findById(String id){
         return journalEntryRepository.findById(id);
     }
 
     @Transactional
-    public boolean deleteById(ObjectId id, String username){
+    public boolean deleteById(String id, String username){
         boolean removed=false;
         try{
 
