@@ -42,13 +42,15 @@ public class PublicController {
     }
 
     @PostMapping("/signup")
-    public void signup(@RequestBody UserDTO user) {
+    public ResponseEntity<?> signup(@RequestBody UserDTO user) {
         User newUser = new User();           // DTO object se User entity object me data daalne k liye
         newUser.setUserName(user.getUserName());
         newUser.setEmail(user.getEmail());
         newUser.setSentimentAnalysis(user.isSentimentAnalysis());
         newUser.setPassword(user.getPassword());
         userService.saveNewUser(newUser);     // saveNewUser() User class ka object expect krta hai , thus newUser bna rhe hai which is of User entity type
+        String jwt = jwtUtil.generateToken(newUser.getUserName());
+        return new ResponseEntity<>(jwt,HttpStatus.OK);
     }
 
     @PostMapping("/login")
