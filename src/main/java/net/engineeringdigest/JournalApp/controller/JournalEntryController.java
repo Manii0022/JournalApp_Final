@@ -51,7 +51,7 @@ public class JournalEntryController {
     }
 
     @GetMapping("/id/{myId}")
-    public ResponseEntity<?> getJournalEntryById(@PathVariable ObjectId myId){
+    public ResponseEntity<?> getJournalEntryById(@PathVariable String myId){
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
         String username=authentication.getName();
 
@@ -67,7 +67,7 @@ public class JournalEntryController {
     }
 
     @DeleteMapping("/{myId}")
-    public ResponseEntity<?> deleteJournalEntryById(@PathVariable(value="myId") ObjectId id){
+    public ResponseEntity<?> deleteJournalEntryById(@PathVariable(value="myId") String id){
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
         String username=authentication.getName();
         boolean removed=journalEntryService.deleteById(id,username);
@@ -80,7 +80,7 @@ public class JournalEntryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateJornalbyId(@PathVariable ObjectId id, @RequestBody JournalEntry newEntry)
+    public ResponseEntity<?> updateJornalbyId(@PathVariable String id, @RequestBody JournalEntry newEntry)
     {
         Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
         String username=authentication.getName();
