@@ -1,7 +1,7 @@
 package net.engineeringdigest.JournalApp.cache;
 
 import net.engineeringdigest.JournalApp.entity.ConfigJournalAppEntity;
-import net.engineeringdigest.JournalApp.repository.ConfigJurnalAppRepository;
+import net.engineeringdigest.JournalApp.repository.ConfigJournalAppRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class AppCache {
     }
 
     @Autowired
-    ConfigJurnalAppRepository configJurnalAppRepository;
+    ConfigJournalAppRepository configJurnalAppRepository;
 
 
     public Map<String,String> appCacheMap;

@@ -20,7 +20,7 @@ import java.util.List;
 @Builder
 public class User {
     @Id
-    private ObjectId id;
+    private String id;
     @Indexed(unique = true)           //@Indexed → Creates an index in MongoDB for faster searches.
                                         // unique = true → Ensures no two users can have the same userName (like a primary key).
     @NonNull
