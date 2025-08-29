@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class JournalEntry {
     @Id    // iski help se id ko as primary key map kr payenge (zaroori bhi nhi hai dena ..can skip as well)
-    public ObjectId id;
+    public String id;
 
     @NonNull
     public String title;
