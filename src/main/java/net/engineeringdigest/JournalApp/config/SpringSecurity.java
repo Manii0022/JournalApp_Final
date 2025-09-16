@@ -78,7 +78,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
                         if (existingUser.isPresent()) {
                             String jwt = jwtUtil.generateToken(email);
                             response.sendRedirect(
-                                    "http://localhost:5173/dashboard?exists=true&email=" + email + "token=" + jwt + "&name=" + oauthUser.getAttribute("name")
+                                    "http://localhost:5173/dashboard?exists=true&email=" + email + "&token=" + jwt + "&name=" + oauthUser.getAttribute("name")
                             );
                         }
                         else {
