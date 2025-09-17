@@ -2,7 +2,7 @@ package net.engineeringdigest.JournalApp.Scheduler;
 
 import net.engineeringdigest.JournalApp.entity.JournalEntry;
 import net.engineeringdigest.JournalApp.entity.User;
-import net.engineeringdigest.JournalApp.enums.Sentiment;
+import net.engineeringdigest.JournalApp.enums.Mood;
 import net.engineeringdigest.JournalApp.model.SentimentData;
 import net.engineeringdigest.JournalApp.repository.UserRepositoryImpl;
 import net.engineeringdigest.JournalApp.service.EmailService;
