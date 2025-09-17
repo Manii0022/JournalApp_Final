@@ -3,7 +3,7 @@ package net.engineeringdigest.JournalApp.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import net.engineeringdigest.JournalApp.enums.Sentiment;
+import net.engineeringdigest.JournalApp.enums.Mood;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,6 +27,6 @@ public class JournalEntry {
 
     private LocalDateTime date;
 
-    private Sentiment sentiment;
+    private String mood;
 
 }
