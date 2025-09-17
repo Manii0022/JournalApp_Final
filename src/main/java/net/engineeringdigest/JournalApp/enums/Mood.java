@@ -1,6 +1,6 @@
 package net.engineeringdigest.JournalApp.enums;
 
-public enum Sentiment {
+public enum Mood {
 
     HAPPY,
 
@@ -8,5 +8,13 @@ public enum Sentiment {
 
     ANGRY,
 
-    ANXIOUS
+    ANXIOUS,
+
+    EXCITED,
+
+    PEACEFUL,
+
+    PRODUCTIVE,
+
+    FRUSTRATED
 }
