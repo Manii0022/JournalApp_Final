@@ -84,7 +84,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
                         else {
                             User user = new User();
                             user.setUserName(oauthUser.getAttribute("name"));
-                            user.setEmail(oauthUser.getAttribute(email));
+                            user.setEmail(oauthUser.getAttribute("email"));
+                            /* user.setEmail(oauthUser.getAttribute(email)); ❌ wrong (because the local email variable is a value like "test@gmail.com", not a key). Either do user.setEmail(email)*/
                             user.setPassword(GeneratePass());
                             userService.saveNewUser(user);
 
