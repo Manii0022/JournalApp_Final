@@ -23,7 +23,7 @@ public class AppCache {
 
     public Map<String, String> appCacheMap;
 
-    @PostConstruct
+    @PostConstruct    // as soon as AppCache bean in created, below method is run
     public void init() {
         appCacheMap = new HashMap<>();
         List<ConfigJournalAppEntity> all = configJournalAppRepository.findAll();

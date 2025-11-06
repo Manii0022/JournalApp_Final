@@ -21,7 +21,7 @@ public class WeatherResponse {          // this is how the api will return data
         @JsonProperty("weather_descriptions")
         private List<String> weatherDescriptions;
 
-        private int feelslike;
+        private int feelslike;    // temperature
 
     }
 

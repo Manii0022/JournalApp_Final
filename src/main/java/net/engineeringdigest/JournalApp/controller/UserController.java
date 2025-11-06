@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -26,25 +27,25 @@ public class UserController {
     private WeatherService weatherService;
 
     @GetMapping()
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAll();
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user){
+    public void createUser(@RequestBody User user) {
         userService.saveNewUser(user);
     }
 
     @PutMapping()
-    public ResponseEntity<?> updateUser(@RequestBody User user){
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        String userName=authentication.getName();
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
 
         /* jb koi user authenticate hota hai then uski info SecurityContextHolder me store hoti hai and isi se hum user ko
         extract krenge ie authentication.getName();    --> getName() se username ayega
         */
 
-        User userInDb=userService.findByUserName(userName);    // fir whi normal updation ki process
+        User userInDb = userService.findByUserName(userName);    // fir whi normal updation ki process
 
         userInDb.setUserName(user.getUserName());
         userInDb.setPassword(user.getPassword());
@@ -77,14 +78,14 @@ public class UserController {
     }
 
     @GetMapping("greet")
-    public ResponseEntity<?> greeetings() {
+    public ResponseEntity<?> greetings() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        WeatherResponse weatherResponse=weatherService.getWeather("Mumbai");       // yha se getWeather ko call krliya--> ab service me jayenge
-        String greeting="";
-        if(weatherResponse!= null){
-            greeting=", Weather feels like "+ weatherResponse.getCurrent().getTemperature();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");       // yha se getWeather ko call krliya--> ab service me jayenge
+        String greeting = "";
+        if (weatherResponse != null) {
+            greeting = ", Weather feels like " + weatherResponse.getCurrent().getTemperature();
         }
-        return new ResponseEntity<>("hello : "+authentication.getName() + greeting,HttpStatus.OK);
+        return new ResponseEntity<>("hello : " + authentication.getName() + greeting, HttpStatus.OK);
     }
 }
 
