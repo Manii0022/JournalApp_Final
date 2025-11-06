@@ -9,15 +9,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 @SpringBootTest
 public class RedisTest {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
-
-    @Disabled
-    @Test
-    void testRedis(){
-        redisTemplate.opsForValue().set("email","gmail.email.com");
-        Object salary = redisTemplate.opsForValue().get("salary");
-        int a=1;
-    }
+//    @Autowired
+//    private RedisTemplate redisTemplate;
+//
+//    @Disabled
+//    @Test
+//    void testRedis(){
+//        redisTemplate.opsForValue().set("email","gmail.email.com");
+//        Object salary = redisTemplate.opsForValue().get("salary");
+//        int a=1;
+//    }
 
 }

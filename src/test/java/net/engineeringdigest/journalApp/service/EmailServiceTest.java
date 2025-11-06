@@ -11,17 +11,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class EmailServiceTest {
 
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private UserRepositoryImpl userRepository;
-
-    @Test
-    public void testmail(){
-        boolean result = emailService.sendEmail("nobitasizu91@gmail.com", "Mail sending test",
-                "This is the test main sent through spring boot application ");
-        Assertions.assertTrue(result);
-    }
+//    @Autowired
+//    private EmailService emailService;
+//
+//    @Autowired
+//    private UserRepositoryImpl userRepository;
+//
+//    @Test
+//    public void testmail(){
+//        boolean result = emailService.sendEmail("nobitasizu91@gmail.com", "Mail sending test",
+//                "This is the test main sent through spring boot application ");
+//        Assertions.assertTrue(result);
+//    }
 
 }

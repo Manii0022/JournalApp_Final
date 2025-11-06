@@ -19,23 +19,23 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)              // to initialize the @Mock objects... (new approach)
 public class UserDetailsServiceImpltest {
 
-    //@Autowired            2. thus autowired bhi null ho jayega ...isiliye isey bhi hta diya
-    @InjectMocks            // lekin
-    private UserDetailsServiceImpl userDetailsServic;
-
-    @Mock   // repository ko mock krliya ..ie actual repo na chal k humari mock repo chle (yhi waali)
-    private UserRepository userRepository;
-
-//    @BeforeEach
-//    void setup() {
-//        MockitoAnnotations.initMocks(this);             // to initialize the @Mock objects otherwise wo null rhenge.. (old approach)
+//    //@Autowired            2. thus autowired bhi null ho jayega ...isiliye isey bhi hta diya
+//    @InjectMocks            // lekin
+//    private UserDetailsServiceImpl userDetailsServic;
+//
+//    @Mock   // repository ko mock krliya ..ie actual repo na chal k humari mock repo chle (yhi waali)
+//    private UserRepository userRepository;
+//
+////    @BeforeEach
+////    void setup() {
+////        MockitoAnnotations.initMocks(this);             // to initialize the @Mock objects otherwise wo null rhenge.. (old approach)
+////    }
+//
+//    @Disabled
+//    @Test
+//    public void loadUserByUsrnameTest(){
+//        when(userRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(User.builder().userName("ram").password("ag7f8gfg8a00").roles(new ArrayList<>()).build());
+//        UserDetails user=userDetailsServic.loadUserByUsername("ram");
+//        Assertions.assertNotNull(user);
 //    }
-
-    @Disabled
-    @Test
-    public void loadUserByUsrnameTest(){
-        when(userRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(User.builder().userName("ram").password("ag7f8gfg8a00").roles(new ArrayList<>()).build());
-        UserDetails user=userDetailsServic.loadUserByUsername("ram");
-        Assertions.assertNotNull(user);
-    }
 }
