@@ -10,14 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @Slf4j
@@ -46,7 +43,7 @@ public class PublicController {
         User newUser = new User();           // DTO object se User entity object me data daalne k liye
         newUser.setUserName(user.getUserName());
         newUser.setEmail(user.getEmail());
-        newUser.setSentimentAnalysis(user.isSentimentAnalysis());
+        newUser.setGetUpdates(user.isGetUpdates());
         newUser.setPassword(user.getPassword());
         userService.saveNewUser(newUser);     // saveNewUser() User class ka object expect krta hai , thus newUser bna rhe hai which is of User entity type
         String jwt = jwtUtil.generateToken(newUser.getUserName());
