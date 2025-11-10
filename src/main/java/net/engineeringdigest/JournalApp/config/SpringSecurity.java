@@ -1,9 +1,6 @@
 package net.engineeringdigest.JournalApp.config;
 
 import java.util.List;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.engineeringdigest.JournalApp.entity.User;
 import net.engineeringdigest.JournalApp.filter.JwtFilter;
 import net.engineeringdigest.JournalApp.repository.UserRepository;
@@ -14,28 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Optional;
 
 @Configuration
@@ -85,7 +69,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {     // webSec
                             User user = new User();
                             user.setUserName(oauthUser.getAttribute("name"));
                             user.setEmail(oauthUser.getAttribute("email"));
-                            /* user.setEmail(oauthUser.getAttribute(email)); ❌ wrong (because the local email variable is a value like "test@gmail.com", not a key). Either do user.setEmail(email)*/
+                            /* user.setEmail(oauthUser.getAttribute(email));  wrong (because the local email variable is a value like "test@gmail.com", not a key). Either do user.setEmail(email)*/
                             user.setPassword(GeneratePass());
                             userService.saveNewUser(user);
 
