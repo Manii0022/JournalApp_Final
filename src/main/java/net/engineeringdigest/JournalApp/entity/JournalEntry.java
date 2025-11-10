@@ -3,11 +3,8 @@ package net.engineeringdigest.JournalApp.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import net.engineeringdigest.JournalApp.enums.Mood;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.time.LocalDateTime;
 
 // @Document-->  this means ki JournalEntry ka instance , ek document(row) k barabar hoga
